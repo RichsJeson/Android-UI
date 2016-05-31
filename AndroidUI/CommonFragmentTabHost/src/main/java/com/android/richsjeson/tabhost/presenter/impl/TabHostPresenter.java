@@ -24,25 +24,6 @@ public class TabHostPresenter implements ITabHostPresneter {
     private static TabHostPresenter mPrensenter;
 
 
-    /**
-     * 推荐
-     */
-    public static final  int VS_MAINPAGE_RECOMMEND=0;
-    /**
-     * 全景
-     */
-    public static final  int VS_MAINPAGE_PANORMAIC=1;
-    /**
-     * 应用
-     */
-    public static final int VS_MAINPAGE_APPLICATION=2;
-    /**
-     * 我的
-     */
-    public static final int VS_MAINPAGE_USERCENTER=3;
-
-
-
     public static TabHostPresenter getInstance(){
 
         if(mPrensenter==null){
