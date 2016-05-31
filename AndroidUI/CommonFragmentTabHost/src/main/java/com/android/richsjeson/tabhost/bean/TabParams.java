@@ -1,0 +1,71 @@
+package com.android.richsjeson.tabhost.bean;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @author zyb
+ * Tab实体类
+ * @date 2016/5/18 13:59
+ */
+public class TabParams implements Serializable {
+    /**
+     * 页面属性集合
+     */
+    private List<PageItem> items;
+    /**
+     * tab的背景
+     */
+    private String tabBackground;
+    /**
+     * tab的背景选择器
+     */
+    private String tabBackgroundSelect;
+    /**
+     * 标题的字体颜色常态
+     */
+    private String titleFontColor;
+    /**
+     * 标题的字体选择器
+     */
+    private String titleFontColorSelect;
+
+    public List<PageItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PageItem> items) {
+        this.items = items;
+    }
+
+    public String getTabBackground() {
+        return tabBackground;
+    }
+
+    public void setTabBackground(String tabBackground) {
+        this.tabBackground = tabBackground;
+    }
+
+    public String getTabBackgroundSelect() {
+        return tabBackgroundSelect;
+    }
+
+    public void setTabBackgroundSelect(String tabBackgroundSelect) {
+        this.tabBackgroundSelect = tabBackgroundSelect;
+    }
+
+    public String getTitleFontColor() {
+        return titleFontColor;
+    }
+
+    public void setTitleFontColor(String titleFontColor) {
+        this.titleFontColor = titleFontColor;
+    }
+
+    public String getTitleFontColorSelect() {
+        return titleFontColorSelect;
+    }
+
+    public void setTitleFontColorSelect(String titleFontColorSelect) {
+        this.titleFontColorSelect = titleFontColorSelect;
+    }
+}
