@@ -56,10 +56,15 @@ public class CommonTabSpc {
         this.mPageItem=item;
     }
 
-
+    @Deprecated
     public void setTag(int tagId){
 
         mTag="tab_"+tagId;
+    }
+
+    public void setTag(String tagId){
+
+        mTag=tagId;
     }
 
     public void setBadge(int count){

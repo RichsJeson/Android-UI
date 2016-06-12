@@ -65,11 +65,7 @@ public class TabHostPresenter implements ITabHostPresneter {
     @Override
     public Fragment getFragment(int currentTab) {
         if(mTab != null){
-
-            if(mTab.getmTabs().get(currentTab)!=null){
-                CommonFragmentTabHost.TabInfo tabInfo=mTab.getmTabs().get(currentTab);
-                return  tabInfo.getFragment();
-            }
+            return  mTab.getCurrentFragment(currentTab);
         }
         return null;
     }

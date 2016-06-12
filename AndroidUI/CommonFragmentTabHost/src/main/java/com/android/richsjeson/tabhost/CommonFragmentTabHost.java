@@ -20,6 +20,7 @@ import android.widget.TabWidget;
 
 import com.android.richsjeson.tabhost.bean.PageItem;
 import com.android.richsjeson.tabhost.bean.TabParams;
+import com.android.richsjeson.tabhost.interf.OnTabSelectedListener;
 import com.android.richsjeson.tabhost.presenter.impl.TabHostPresenter;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class CommonFragmentTabHost extends TabHost
     private CommonTabWidget mCommonTabWidget;
     private OnKeyListener mTabKeyListener;
     private View mCurrentView = null;
+    private OnTabSelectedListener mOnTabSelectedListener;
 
     private  int mCurrentTab=-1;
 
@@ -66,7 +68,7 @@ public class CommonFragmentTabHost extends TabHost
                     for (int i=0;i< list.size();i++) {
                         PageItem item =list.get(i);
                         CommonTabSpc tabSpc = new CommonTabSpc(mContext, titleFontColor, titleFontColorSelected, tabBackground, tabBackgroundSelect, item);
-                        tabSpc.setTag(i);
+                        tabSpc.setTag(item.getTag());
                         tabSpc.setIndicator(mCommonTabWidget);
                         addTab(tabSpc, Class.forName(item.getPage()), bundle);
                     }
@@ -83,6 +85,11 @@ public class CommonFragmentTabHost extends TabHost
 
     public static final class TabInfo {
         private final String tag;
+
+        public Class<?> getTabClass() {
+            return clss;
+        }
+
         private final Class<?> clss;
         private final Bundle args;
         private Fragment fragment;
@@ -189,6 +196,10 @@ public class CommonFragmentTabHost extends TabHost
     }
 
 
+    public void setOnTabSelectedListener(OnTabSelectedListener listener){
+        this.mOnTabSelectedListener=listener;
+    }
+
     public void setup() {
         throw new IllegalStateException(
                 "Must call setup() that takes a Context and FragmentManager");
@@ -224,9 +235,32 @@ public class CommonFragmentTabHost extends TabHost
         if(tabSpc != null){
             tabSpc.setBadge(count);
         }
-
     }
 
+    /**
+     * 隐藏
+     * @param currentTab   当前选中的Tab
+     * @param count        推送的条数
+     * @param isCheck   是否需要检查currentTab被选中
+     */
+    public void setBadge(int currentTab,int count,boolean isCheck) {
+        Log.i(this.getClass().getName(), "currentTab:=" + currentTab);
+        if(isCheck){
+            if (this.mCurrentTab!=currentTab) {
+                setBadge(currentTab,count);
+            }
+        }else{
+            setBadge(currentTab, count);
+        }
+    }
+
+    /**
+     * 清理
+     * @param currentTab
+     */
+    public void clearBadge(int currentTab){
+        setBadge(currentTab, 0);
+    }
 
     public void setOnTabChangedListener(OnTabChangeListener l) {
         mOnTabChangeListener = l;
@@ -240,7 +274,7 @@ public class CommonFragmentTabHost extends TabHost
             info.fragment = mFragmentManager.findFragmentByTag(tag);
             if (info.fragment != null && !info.fragment.isDetached()) {
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
-                ft.detach(info.fragment);
+                ft.hide(info.fragment);
                 ft.commit();
             }
         }
@@ -277,7 +311,7 @@ public class CommonFragmentTabHost extends TabHost
                     if (ft == null) {
                         ft = mFragmentManager.beginTransaction();
                     }
-                    ft.detach(tab.fragment);
+                    ft.hide(tab.fragment);
                 }
             }
         }
@@ -341,7 +375,6 @@ public class CommonFragmentTabHost extends TabHost
                 tabSpc.setCurrentFontColor();
                 tabSpc.setCurrentImage();
                 tabSpc.setCurrentItem();
-
             }else{
                 tabSpc.setFontColor();
                 tabSpc.setImage();
@@ -349,7 +382,7 @@ public class CommonFragmentTabHost extends TabHost
             }
         }
         if (newTab == null) {
-            throw new IllegalStateException("No tab known for tag " + tabId);
+            android.util.Log.i(this.getClass().getName(),"No tab known for tag " + tabId);
         }
         if (mLastTab != newTab) {
             if (ft == null) {
@@ -426,13 +459,18 @@ public class CommonFragmentTabHost extends TabHost
 
     }
     public void setCurrentTab(int index) {
+
+        if(mOnTabSelectedListener != null){
+            mOnTabSelectedListener.onPageSelected(index);
+        }
+
         if (index < 0 || index >= mTabs.size()) {
             return;
         }
 
-//        if (index == mCurrentTab) {
-//            return;
-//        }
+        if (index == mCurrentTab) {
+            return;
+        }
 
         mCurrentTab = index;
         final CommonTabSpc spec = mTabSpecs.get(index);
@@ -455,9 +493,18 @@ public class CommonFragmentTabHost extends TabHost
         invokeOnTabChangeListener();
     }
 
+    public Fragment getCurrentFragment(int index){
+        TabInfo tabInfo=mTabs.get(index);
+        if(tabInfo!=null){
+            return mTabs.get(index).getFragment();
+        }else{
+            return null;
+        }
+    }
 
-    public ArrayList<TabInfo> getmTabs() {
-        return mTabs;
+    @Override
+    public int getCurrentTab() {
+        return mCurrentTab;
     }
 }
 

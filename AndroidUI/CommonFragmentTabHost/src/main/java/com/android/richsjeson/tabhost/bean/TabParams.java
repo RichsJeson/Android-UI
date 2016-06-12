@@ -30,6 +30,9 @@ public class TabParams implements Serializable {
     private String titleFontColorSelect;
 
     public List<PageItem> getItems() {
+        if(this.items==null){
+            throw  new NullPointerException("TabItem 的列表不能为空");
+        }
         return items;
     }
 
@@ -54,6 +57,9 @@ public class TabParams implements Serializable {
     }
 
     public String getTitleFontColor() {
+        if(this.titleFontColor==null){
+            throw  new NullPointerException("TabItem 的标题的默认未选中的颜色未定义");
+        }
         return titleFontColor;
     }
 
@@ -62,6 +68,9 @@ public class TabParams implements Serializable {
     }
 
     public String getTitleFontColorSelect() {
+        if(this.titleFontColorSelect==null){
+            throw  new NullPointerException("TabItem 的标题被选中的颜色未定义");
+        }
         return titleFontColorSelect;
     }
 
