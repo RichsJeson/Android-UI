@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidUI.iml" filepath="$PROJECT_DIR$/AndroidUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/CommonFragmentTabHost/CommonFragmentTabHost.iml" filepath="$PROJECT_DIR$/CommonFragmentTabHost/CommonFragmentTabHost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RippleLayout/RippleLayout.iml" filepath="$PROJECT_DIR$/RippleLayout/RippleLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CommonFragmentTabHost" />
+            <option value="$PROJECT_DIR$/RippleLayout" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
