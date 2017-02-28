@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,6 +25,9 @@ public class WebViewRequestClient extends WebViewClient implements  LoaderManage
     private Activity mContext;
     private static final int LOADER_ID = 1;
     private WebView mWebView;
+    private Boolean isLoader=false;
+
+
     public  WebViewRequestClient(Activity context,WebView webView){
 
         this.mContext=context;
@@ -49,15 +55,20 @@ public class WebViewRequestClient extends WebViewClient implements  LoaderManage
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest re) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            if(re.getRequestHeaders() ==null){
-                mContext.getLoaderManager().initLoader(LOADER_ID,null,WebViewRequestClient.this).forceLoad();
-            }
+        if(re.getRequestHeaders() ==null){
+            mContext.getLoaderManager().initLoader(LOADER_ID,null,WebViewRequestClient.this).forceLoad();
         }
+
         return true;
     }
-
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        super.onPageStarted(view, url, favicon);
+        if(!isLoader){
+            mContext.getLoaderManager().initLoader(LOADER_ID,null,WebViewRequestClient.this).forceLoad();
+        }
+    }
 }
